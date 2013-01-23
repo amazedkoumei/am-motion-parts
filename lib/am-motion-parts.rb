@@ -1,9 +1,9 @@
-require "am-motion-parts/version"
+unless defined?(Motion::Project::Config)
+  raise "This file must be required within a RubyMotion project Rakefile."
+end
 
-module Am
-  module Motion
-    module Parts
-      # Your code goes here...
-    end
+Motion::Project::App.setup do |app|
+  Dir.glob(File.join(File.dirname(__FILE__), '../informView/*.rb')).each do |file|
+    app.files.unshift(file)
   end
 end
