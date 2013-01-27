@@ -51,7 +51,7 @@ class GithubApiTemplateActivity < UIActivity
         end
 
       elsif item.class.ancestors.include?(UIViewController)
-        InformView.show(informationMessage(), target:item.view, animated:true)
+        AMP::InformView.show(informationMessage(), target:item.view, animated:true)
       else
         # do nothing
       end
@@ -68,10 +68,10 @@ class GithubApiTemplateActivity < UIActivity
 
     BW::HTTP.send(methodName, apiUrl, {headers: {Authorization: authHeader}}) do |response|
       if response.status_code == 204
-        InformView.hide(true)
+        AMP::InformView.hide(true)
         @delegate.send(DELGATE_METHOD_COMPLETE) if @delegate.respond_to?(DELGATE_METHOD_COMPLETE)          
       else
-        InformView.hide(true)
+        AMP::InformView.hide(true)
         @delegate.send(DELGATE_METHOD_COMPLETE_WITH_ERROR, response.status_code) if @delegate.respond_to?(DELGATE_METHOD_COMPLETE_WITH_ERROR)
       end
     end
