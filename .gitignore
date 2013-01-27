@@ -16,5 +16,6 @@ test/tmp
 test/version_tmp
 tmp
 build/
+bundle/
 .DS_Store
 .repl_history
