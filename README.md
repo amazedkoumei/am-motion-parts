@@ -94,6 +94,10 @@ Or
 + [BubbleWrap](https://github.com/rubymotion/BubbleWrap)
 
 
+## TODO
+
++ write spec…(ﾉ∀`)ｱﾁｬｰ
+
 ## Contributing
 
 1. Fork it
