@@ -12,6 +12,7 @@ module AMP
     def isWatchingRepository(owner, repo, &block)
       getRepositorySubscription(owner, repo) do |response, query|
         if response.ok?
+          # TODO: response.body is nil and app will crash when using authToken that is not include "repo" scope
           json = BW::JSON.parse(response.body)
           block.call(json[:subscribed]) unless block.nil?
         else
