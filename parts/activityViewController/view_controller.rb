@@ -29,6 +29,20 @@ module AMP
       end
     end
 
+    def self.activityHatenaBookmark(url_string, options)
+      options = {
+        :title => "",
+        :backurl => "",
+        :backtitle => ""
+      }.merge(options)
+      HatenaBookmarkActivity.new.tap do |h|
+        h.url = url_string
+        h.title = options[:title]
+        h.backurl = options[:backurl]
+        h.backtitle = options[:backtitle]
+      end
+    end
+
     DEFAULT_ACTIVITY_LIST = [
       UIActivityTypePostToFacebook,
       UIActivityTypePostToTwitter,
