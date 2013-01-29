@@ -29,17 +29,24 @@ Or
     @activityController = AMP::ActivityViewController.new.tap do |a|
       # if you need
       url = NSURL.URLWithString("http://example.com")
-      text = NSURL.URLWithString("example")
+      text = "example"
       activityItems = [@manager.url, text]
+      
+      # see http://developer.hatena.ne.jp/ja/documents/iphone/apis/bookmark ( in Japanese )
+      # if you need
+      hatenaBookmarkOptions = {
+      	:title => "title"
+      	:backurl => "sample:/"
+      	:backtitle => "sample"
+      }
       
       includeActivities = [
       	# You can include "Built-in Activity Types"
       	UIActivityTypePostToFacebook,
         UIActivityTypePostToTwitter,
         
-        
         AMP::ActivityViewController.activityOpenInSafariActivity()
-        AMP::ActivityViewController.activityOpenInSafariActivity(),
+        AMP::ActivityViewController.activityHatenaBookmark(url, hatenaBookmarkOptions),
         AMP::ActivityViewController.activityGithubAPI_StarPut(authToken, self),
         AMP::ActivityViewController.activityGithubAPI_StarDelete(authToken, self),
         AMP::ActivityViewController.activityGithubAPI_WatchPut(authToken, self),
