@@ -3,8 +3,9 @@ class GithubApiTemplateActivity < UIActivity
 
   attr_accessor :authToken, :delegate
 
-  DELGATE_METHOD_COMPLETE = "completePerformActivity"
-  DELGATE_METHOD_COMPLETE_WITH_ERROR = "completePerformActivityWithError"
+  DELGATE_METHOD_PREPARE = "prepareGithubPerformActivity"
+  DELGATE_METHOD_COMPLETE = "completeGithubPerformActivity"
+  DELGATE_METHOD_COMPLETE_WITH_ERROR = "completeGithubPerformActivityWithError"
 
   def informationMessage
     ""
@@ -38,7 +39,12 @@ class GithubApiTemplateActivity < UIActivity
   end
 
   def canPerformWithActivityItems(activityItems)
-    true
+    for item in activityItems
+      if item.class.name == "NSURL" && (item.host == "github.com" || item.host == "gist.github.com")
+        return true
+      end
+    end
+    false
   end
 
   def prepareWithActivityItems(activityItems)
@@ -49,11 +55,7 @@ class GithubApiTemplateActivity < UIActivity
         if !@url.nil?
           blank, @owner, @repo = @url.path.componentsSeparatedByString("/")
         end
-
-      elsif item.class.ancestors.include?(UIViewController)
-        AMP::InformView.show(informationMessage(), target:item.view, animated:true)
-      else
-        # do nothing
+        @delegate.send(DELGATE_METHOD_PREPARE, self) if @delegate.respond_to?(DELGATE_METHOD_PREPARE)
       end
     end
   end
