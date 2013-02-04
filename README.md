@@ -63,13 +63,31 @@ Or
     @api = AMP::GithubAPI.instance
     @owner = "amazedkoumei"
     @repo = "am-motion-parts"
+    @appName = "sample app(API)"
     
-    @api.createAuthorization(@userName, @password, payload) do |error|
-      if error.nil?
+    @api.hasAuthonicated(@userName, @password, @appName) do |response|
+      if response != AMP::GithubAPI::AUTH_ERROR_MESSAGE
+        if response == false
+          # has not authonicated
+        else
+          # has authonicated
+          appID = response
+        end
+      end
+    end
+    
+    @api.createAuthorization(@userName, @password, payload) do |response|
+      if response != AMP::GithubAPI::AUTH_ERROR_MESSAGE
+        authToken = @api.authToken
+      end
+    end
+    
+    @api.updateAuthorization(@userName, @password, payload, appID) do |response|
+      if response != AMP::GithubAPI::AUTH_ERROR_MESSAGE
         authToken = @api.authToken
        end
     end
-    
+
     @api.getRepositorySubscription(@owner, @repo) do |response, query|
       # response is BubbleWrap::HTTP::Response
       # query is BubbleWrap::HTTP::Query

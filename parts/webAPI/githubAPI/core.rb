@@ -34,5 +34,24 @@ module AMP
       end
     end
 
+    def basicAuthenticationRequest(userName, password, url_string, http_method=:get, options={}, &block)
+
+      # base64 encoding
+      authorization = "Basic " + [userName + ":" + password].pack("m").chomp
+      options = {
+        headers: {
+          Authorization: authorization,
+          Accept: "application/vnd.github.beta+json",
+          Accept: "application/vnd.github.v3+json"        
+        }
+      }.merge(options)
+
+      # see about options
+      # https://github.com/rubymotion/BubbleWrap/blob/master/motion/http.rb
+      BubbleWrap::HTTP.send(http_method, url_string, options) do |response, query|
+        block.call(response, query) unless block.nil?
+      end
+    end
+
   end
 end
