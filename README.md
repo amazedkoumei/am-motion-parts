@@ -117,6 +117,8 @@ Or
 ## Libraries using
 
 + [BubbleWrap](https://github.com/rubymotion/BubbleWrap)
++ [UIActivityCollection](https://github.com/shu223/UIActivityCollection)
+  + just using image for ActivityViewController
 
 
 ## TODO
