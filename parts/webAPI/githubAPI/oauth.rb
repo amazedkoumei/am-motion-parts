@@ -33,7 +33,9 @@ module AMP
       end
     end
 
-    def fetchNewsFeedToken(&block)
+    def fetchNewsFeedToken(userName, password, &block)
+      @userName = userName
+      @password = password
       @webview = UIWebView.new.tap do |v|
         v.loadRequest(NSURLRequest.requestWithURL(NSURL.URLWithString("https://github.com/login")))
         v.delegate = self
