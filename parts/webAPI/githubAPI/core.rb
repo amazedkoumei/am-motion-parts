@@ -13,7 +13,7 @@ module AMP
       @instance
     end
 
-    def request(url_string, http_method=:get, options={}, &block)
+    def request(url_string, http_method=:get, payload={}, &block)
 
       if @authToken.nil?
         @authToken = App::Persistence[USER_DEFAULT_AUTHTOKEN]
@@ -25,7 +25,8 @@ module AMP
           Accept: "application/vnd.github.beta+json",
           Accept: "application/vnd.github.v3+json"
         }
-      }.merge(options)
+      }
+      options[:payload] = payload
 
       # see about options
       # https://github.com/rubymotion/BubbleWrap/blob/master/motion/http.rb
