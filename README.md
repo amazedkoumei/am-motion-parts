@@ -65,6 +65,11 @@ Or
     @repo = "am-motion-parts"
     @appName = "sample app(API)"
     
+    # error-handling（optional）
+    def @api.errorAction(response, query)
+      App.notification_center.post ERROR_NOTIFICATION
+    end
+    
     @api.hasAuthonicated(@userName, @password, @appName) do |response|
       if response != AMP::GithubAPI::AUTH_ERROR_MESSAGE
         if response == false
