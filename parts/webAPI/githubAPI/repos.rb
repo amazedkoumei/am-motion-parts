@@ -55,9 +55,12 @@ module AMP
 
     def repositoryIssueCount(owner, repo, payload={}, &block)
       getRepositoryIssueList(owner, repo, payload) do |response|
-        # http://developer.github.com/v3/activity/watching/#get-a-repository-subscription
         json = BW::JSON.parse(response.body)
-        block.call(json.length) unless block.nil?
+        if response.ok?
+          block.call(json.length) unless block.nil?
+        else
+          block.call(json[:message]) unless block.nil?
+        end
       end
     end
 

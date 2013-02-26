@@ -33,11 +33,14 @@ module AMP
       BubbleWrap::HTTP.send(http_method, url_string, options) do |response, query|
         if response.ok? || !self.respond_to?("errorAction")
           block.call(response, query) unless block.nil?
-        elsif response.status_code == 404 || !self.respond_to?("errorAction")
+        elsif response.status_code == 404
           # some api retruns 404, for example...
           #   /repos/#{owner}/#{repo}/subscription
           #   /user/starred/#{owner}/#{repo}
           #   /user/following/#{owner}
+          block.call(response, query) unless block.nil?
+        elsif response.status_code == 410
+          # issue disable
           block.call(response, query) unless block.nil?
         else
           errorAction(response, query)
