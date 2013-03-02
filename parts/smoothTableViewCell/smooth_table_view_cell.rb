@@ -6,6 +6,10 @@ module AMP
 
     def initWithStyle(style, reuseIdentifier:reuseIdentifier)
       if super
+        unless @aContentView.nil?
+          # I don't know why but need this... 
+          @aContentView.removeFromSuperview()
+        end
         @aContentView = SmoothTableViewCellContentView.alloc.initWithFrame(self.contentView.frame, withCell:self)
         @aContentView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight
         self.contentView.addSubview(@aContentView)
