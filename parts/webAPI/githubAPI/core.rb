@@ -20,6 +20,8 @@ module AMP
       end
 
       options = {
+        # FIXME: should be given from argument?
+        cache_policy: NSURLRequestReloadIgnoringCacheData,
         headers: {
           Authorization: "token " + @authToken,
           Accept: "application/vnd.github.beta+json",
