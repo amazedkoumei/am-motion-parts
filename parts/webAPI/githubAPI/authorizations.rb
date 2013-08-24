@@ -64,7 +64,7 @@ module AMP
       @userName = userName
       @password = password
       @webview = UIWebView.new.tap do |v|
-        v.loadRequest(NSURLRequest.requestWithURL(NSURL.URLWithString("https://github.com/login")))
+        v.loadRequest(NSURLRequest.requestWithURL(NSURL.URLWithString("https://github.com/login?mobile=0")))
         v.delegate = self
       end
       @delegator = block unless block.nil?
