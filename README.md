@@ -114,7 +114,19 @@ Or
       # ret is BOOLEAN
     end
 
-## Apps used
+### Util
+
+`AMP::Util.imageForRetina(image)`
+
+returns UIImage for retina display.
+
+@param image[UIImage]
+
+
+
+
+
+## Apps using this library
 
 + [Octofeed](https://github.com/amazedkoumei/motion-octofeed)
 
