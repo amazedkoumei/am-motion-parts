@@ -122,6 +122,13 @@ returns UIImage for retina display.
 
 @param image[UIImage]
 
+`AMP::Util.dateFormatter(strDate, inputFormat, outputFormat)`
+
+returns NSString formatted like inputFormat
+
+@param strDate[NSString] ex. "2013-10-03T04:32:52Z"  
+@param inputFormat[NSString] ex. "YYYY'-'MM'-'dd'T'HH':'mm':'ss'Z'"  
+@param outputFormat[NSString] ex. "YYYY-MM-dd HH:mm:ss"
 
 
 
