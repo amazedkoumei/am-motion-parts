@@ -33,6 +33,7 @@ in UITableViewController
       self.tableView.tableFooterView = v
     end
     @footerView.startAnimating()
+    # Do Something
     @footerView.stopAnimating()
 
 ### ActivityViewController
