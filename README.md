@@ -24,6 +24,17 @@ Or
     # Do Something
     AMP::InformView.hide(true)
 
+### LoadingTableFooterView
+
+in UITableViewController
+
+    @footerView = AMP::LoadingTableFooterView.new.tap do |v|
+      v.frame = [[0, 0], [tableView.frame.size.width, 44]]
+      self.tableView.tableFooterView = v
+    end
+    @footerView.startAnimating()
+    @footerView.stopAnimating()
+
 ### ActivityViewController
 
     @activityController = AMP::ActivityViewController.new.tap do |a|
