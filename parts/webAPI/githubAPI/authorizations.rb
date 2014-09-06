@@ -5,6 +5,8 @@ module AMP
     AUTHORIZATIONS_API_LIST = [
       # http://developer.github.com/v3/oauth/#create-a-new-authorization
       {method: :post, name: "createAuthorization"},
+      # https://developer.github.com/v3/oauth_authorizations/#get-or-create-an-authorization-for-a-specific-app
+      {method: :put, name: "get_or_createAuthorization"},
       # http://developer.github.com/v3/oauth/#update-an-existing-authorization
       {method: :patch, name: "updateAuthorization"},
       # http://developer.github.com/v3/oauth/#list-your-authorizations
@@ -12,7 +14,7 @@ module AMP
     ]
 
     AUTHORIZATIONS_API_LIST.each do |api|
-      define_method(api[:name]) do |userName, password, payload = {}, authID = nil, &block|
+      define_method(api[:name]) do |userName, password, payload = {}, path = nil, &block|
 
         # base64 encoding
         authorization = "Basic " + [userName + ":" + password].pack("m").chomp
@@ -25,11 +27,7 @@ module AMP
           },
           payload: BW::JSON.generate({
             # http://developer.github.com/v3/oauth/#scopes
-            scopes: ["public_repo"],
-            note: "",
-            note_url: "",
-            client_id: "",
-            client_secret: ""
+            scopes: ["public_repo"]
           }.merge(payload)),
           format: :json
         }
@@ -38,7 +36,7 @@ module AMP
         end
         
         url_string = API_ROOT + "/authorizations"
-        url_string = url_string + "/#{authID}" unless authID.nil?
+        url_string = url_string + "/#{path}" unless path.nil?
 
         #self.request('https://api.github.com/authorizations', :post, {headers: {Authorization: authorization}, payload: payload, format: :json}) do |response|
         BubbleWrap::HTTP.send(api[:method], url_string, options) do |response, query|
@@ -53,8 +51,14 @@ module AMP
               block.call(response) unless block.nil?
             end
           else
-            error = AUTH_ERROR_MESSAGE
-            block.call(error) unless block.nil?
+            if response.status_code == 412
+              # 短時間の間に auth request を複数回なげると412が返る？
+              # とりあえず成功扱いにして様子見
+              block.call(response) unless block.nil?
+            else
+              error = AUTH_ERROR_MESSAGE
+              block.call(error) unless block.nil?
+            end
           end
         end
       end
