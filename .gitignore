@@ -19,3 +19,5 @@ build/
 bundle/
 .DS_Store
 .repl_history
+
+resources/*.png
