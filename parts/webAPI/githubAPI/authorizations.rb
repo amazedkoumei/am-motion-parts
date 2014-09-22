@@ -44,8 +44,9 @@ module AMP
             json = BW::JSON.parse(response.body.to_str)
             if api[:name] != "getAuthorizations"
               @authToken = json[:token]
-              App::Persistence[USER_DEFAULT_AUTHTOKEN] = @authToken
-
+              error_ptr = Pointer.new(:object)
+              SFHFKeychainUtils.storeUsername(KEY_CHAIN_AUTHTOKEN, andPassword:@authToken, forServiceName:App.name, updateExisting:true, error:error_ptr)
+              
               block.call(response) unless block.nil?
             else
               block.call(response) unless block.nil?

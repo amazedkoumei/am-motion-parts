@@ -5,7 +5,7 @@ module AMP
     attr_accessor :newsFeedToken
 
     API_ROOT = "https://api.github.com"
-    USER_DEFAULT_AUTHTOKEN = "amp_github_authtoken"
+    KEY_CHAIN_AUTHTOKEN = "amp_github_authtoken"
 
     def self.instance()
       Dispatch.once { @instance ||= new }
@@ -13,17 +13,20 @@ module AMP
       @instance
     end
 
-    def request(url_string, http_method=:get, payload={}, &block)
-
-      if @authToken.nil?
-        @authToken = App::Persistence[USER_DEFAULT_AUTHTOKEN]
+    def authToken
+      @authToken ||= begin
+        error_ptr = Pointer.new(:object)
+        @authToken = SFHFKeychainUtils.getPasswordForUsername(KEY_CHAIN_AUTHTOKEN, andServiceName:App.name, error:error_ptr)
       end
+    end
+
+    def request(url_string, http_method=:get, payload={}, &block)
 
       options = {
         # FIXME: should be given from argument?
         cache_policy: NSURLRequestReloadIgnoringCacheData,
         headers: {
-          Authorization: "token " + @authToken,
+          Authorization: "token " + self.authToken,
           Accept: "application/vnd.github.beta+json",
           Accept: "application/vnd.github.v3+json"
         }

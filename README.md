@@ -11,10 +11,12 @@ Add this line to your application's Gemfile:
 And then execute:
 
     $ bundle install
+    $ rake pod:install
 
 Or
 
     $ bundle install --path bundle
+    $ rake pod:install
 
 ## Usage
 
