@@ -44,9 +44,7 @@ module AMP
             json = BW::JSON.parse(response.body.to_str)
             if api[:name] != "getAuthorizations"
               @authToken = json[:token]
-              error_ptr = Pointer.new(:object)
-              SFHFKeychainUtils.storeUsername(KEY_CHAIN_AUTHTOKEN, andPassword:@authToken, forServiceName:App.name, updateExisting:true, error:error_ptr)
-              
+              SSKeychain.setPassword(@authToken, forService:NSBundle.mainBundle.bundleIdentifier, account:KEY_CHAIN_AUTHTOKEN)
               block.call(response) unless block.nil?
             else
               block.call(response) unless block.nil?

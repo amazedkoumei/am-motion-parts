@@ -15,8 +15,7 @@ module AMP
 
     def authToken
       @authToken ||= begin
-        error_ptr = Pointer.new(:object)
-        @authToken = SFHFKeychainUtils.getPasswordForUsername(KEY_CHAIN_AUTHTOKEN, andServiceName:App.name, error:error_ptr)
+        @authToken = SSKeychain.passwordForService(NSBundle.mainBundle.bundleIdentifier, account:KEY_CHAIN_AUTHTOKEN)
       end
     end
 

@@ -15,7 +15,7 @@ Motion::Project::App.setup do |app|
   end
 
   app.pods do
-    pod 'SFHFKeychainUtils'
+    pod 'SSKeychain'
   end
 
   app.frameworks += [
