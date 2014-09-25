@@ -36,7 +36,6 @@ module AMP
     def isFollowingUser(user, &block)
       request(API_ROOT + "/user/following/#{user}") do |response, query|
         # http://developer.github.com/v3/users/followers/#check-if-you-are-following-a-user        
-        p response.status_code
         block.call(response.status_code == 204) unless block.nil?
       end
     end
@@ -44,7 +43,6 @@ module AMP
     def followUser(user, &block)
       p user
       request(API_ROOT + "/user/following/#{user}", :put) do |response, query|
-        p response.status_code
         block.call(response.status_code == 204) unless block.nil?
       end
     end
